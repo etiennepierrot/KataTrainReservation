@@ -3,10 +3,10 @@ using NUnit.Framework;
 namespace KataTrainReservation
 {
     [TestFixture]
-    public class TicketOfficeNUnitTest {
+    public class TicketOfficeTest {
     
         [Test]
-        public void reserveSeats() {
+        public void ReserveSeats() {
             // TODO: write this code
 
         }
