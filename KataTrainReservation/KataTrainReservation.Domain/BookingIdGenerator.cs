@@ -1,4 +1,4 @@
-namespace KataTrainReservation
+namespace KataTrainReservation.Domain
 {
     public interface BookingIdGenerator
     {

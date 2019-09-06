@@ -12,16 +12,4 @@
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Content Include="csharp\.idea\.idea.csharp.dir\.idea\workspace.xml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\KataTrainReservation.Domain\KataTrainReservation.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Domain" />
-    </ItemGroup>
-
 </Project>

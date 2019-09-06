@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KataTrainReservation
+namespace KataTrainReservation.Domain
 {
     public class Coach
     {
@@ -11,7 +11,8 @@ namespace KataTrainReservation
         private readonly string _id;
         public int NumberOfSeats { get; }
         public int NumberOfSeatsBooked => NumberOfSeats - _availablesSeatNumber.Count;
-
+        private const decimal PercentOnlineBookingAuthorizeOnCoach = (decimal) 70.0;
+        
 
         public Coach(string id, int[] availablesSeatNumber)
         {
@@ -31,7 +32,17 @@ namespace KataTrainReservation
 
         public bool HasSeatAvailable(int nbSeatToBook)
         {
-            return _availablesSeatNumber.Count >= nbSeatToBook;
+            return PercentNumberOfSeatsBooked(nbSeatToBook) <= PercentOnlineBookingAuthorizeOnCoach;
+        }
+        
+        public bool TotallyFull(int nbSeatToBook)
+        {
+            return NumberOfSeatsBooked + nbSeatToBook > NumberOfSeats;
+        }
+        
+        private decimal PercentNumberOfSeatsBooked(int nbSeat)
+        {
+            return ((NumberOfSeatsBooked + nbSeat) / (decimal) NumberOfSeats) * 100;
         }
     }
 }

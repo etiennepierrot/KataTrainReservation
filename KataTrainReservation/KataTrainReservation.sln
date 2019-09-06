@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KataTrainReservation.Test", "KataTrainReservation.Test\KataTrainReservation.Test.csproj", "{855DAD21-F551-4F4B-8377-6E119BE0E36D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KataTrainReservation.Domain", "KataTrainReservation.Domain\KataTrainReservation.Domain.csproj", "{439E7B63-D227-4E76-91A5-744EB9C55E7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{855DAD21-F551-4F4B-8377-6E119BE0E36D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{855DAD21-F551-4F4B-8377-6E119BE0E36D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{855DAD21-F551-4F4B-8377-6E119BE0E36D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{439E7B63-D227-4E76-91A5-744EB9C55E7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{439E7B63-D227-4E76-91A5-744EB9C55E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{439E7B63-D227-4E76-91A5-744EB9C55E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{439E7B63-D227-4E76-91A5-744EB9C55E7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

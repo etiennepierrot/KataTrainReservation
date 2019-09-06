@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using KataTrainReservation.Domain;
 using NUnit.Framework;
 
 namespace KataTrainReservation
@@ -12,17 +14,15 @@ namespace KataTrainReservation
         [SetUp]
         public void Setup()
         {
-            //Generate 10 Coaches with 10 seat (100 seat)
-            var coaches = Enumerable.Range(1, 10).Select(CoachGenerator).ToList();
-            var seatProvider = new SeatProvider(coaches);
-            _ticketOffice = new TicketOffice(new StubBookingIdGenerator("RESA001"), seatProvider);
+            var train = new Train(Enumerable.Range(1, 10).Select(CoachGenerator).ToList(), "MyTrainId");
+            _ticketOffice = new TicketOffice(new StubBookingIdGenerator("RESA001"), new StubTrainRepository(new []{train}) );
         }
-
-        private Coach CoachGenerator(int numberCoach)
+        
+        private static Coach CoachGenerator(int numberCoach)
         {
             return new Coach(numberCoach.ToString("00"), Enumerable.Range(1, 10).ToArray());
         }
-
+        
         [Test]
         public void ReserveSeats_Should_Book_Ticket_In_The_Requested_Train()
         {
@@ -73,6 +73,31 @@ namespace KataTrainReservation
             
             Assert.That(reservation.Seats[0].Coach, Is.EqualTo(reservation.Seats[1].Coach));
         }
+
+
+        [Test]
+        public void ReserveSeat_Should_Not_Book_More_Than_70_Percent_Of_A_Coach()
+        {
+            MakeReservations(7);
+            
+            Reservation reservation = _ticketOffice.MakeReservation(new ReservationRequest("MyTrainId", 2));
+
+            Assert.That(reservation.Seats[0].Coach, Is.EqualTo("02"));
+        }
+        
+        
+        [Test]
+        public void ReserveSeat_Can_Not_OverBook_More_Than_70_Percent_Of_A_Coach_Given_To_Rename()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                _ticketOffice.MakeReservation(new ReservationRequest("MyTrainId", 5));
+            }
+
+            Reservation reservation = _ticketOffice.MakeReservation(new ReservationRequest("MyTrainId", 3));
+
+            Assert.That(reservation.Seats[0].Coach, Is.EqualTo("01"));
+        }
         
         
 
@@ -98,6 +123,22 @@ namespace KataTrainReservation
             public string Generate()
             {
                 return _id;
+            }
+        }
+        
+        class StubTrainRepository : TrainRepository
+        {
+            private readonly IEnumerable<Train> _trains;
+
+            public StubTrainRepository(IEnumerable<Train> trains)
+            {
+                _trains = trains;
+            }
+            
+            
+            public Train Get(string trainId)
+            {
+                return _trains.Single(t => t.TrainId == trainId);
             }
         }
     }
