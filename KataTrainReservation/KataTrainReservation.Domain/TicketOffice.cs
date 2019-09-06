@@ -16,7 +16,7 @@ namespace KataTrainReservation.Domain
         public Reservation MakeReservation(ReservationRequest request)
         {
             var train = _trainRepository.Get(request.TrainId);
-            var seats = train.BookSeat(train, request.SeatCount);
+            var seats = train.BookSeat(request.SeatCount);
             return new Reservation(train.TrainId, _bookingIdGenerator.Generate(),  seats.ToList());
         }
     }

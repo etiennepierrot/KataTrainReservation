@@ -18,12 +18,12 @@ namespace KataTrainReservation.Domain
             TrainId = trainId;
         }
         
-        public IEnumerable<Seat> BookSeat(Train train, int nbSeat)
+        public IEnumerable<Seat> BookSeat(int nbSeat)
         {
-            if(train.PercentNumberOfSeatsBooked(nbSeat) > PercentOnlineBookingAuthorizeOnTrain) 
+            if(PercentNumberOfSeatsBooked(nbSeat) > PercentOnlineBookingAuthorizeOnTrain) 
                 throw new ApplicationException("Cannot book more than 70% of the train");
 
-            return train.SelectAvailableCoach( nbSeat).PickSeat(nbSeat);
+            return SelectAvailableCoach( nbSeat).PickSeat(nbSeat);
         }
 
         private Coach SelectAvailableCoach(int nbSeat)

@@ -20,8 +20,4 @@
       <ProjectReference Include="..\KataTrainReservation.Domain\KataTrainReservation.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Domain" />
-    </ItemGroup>
-
 </Project>

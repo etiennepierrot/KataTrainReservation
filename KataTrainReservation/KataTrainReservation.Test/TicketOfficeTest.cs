@@ -14,8 +14,10 @@ namespace KataTrainReservation
         [SetUp]
         public void Setup()
         {
+            BookingIdGenerator bookingIdGenerator = new StubBookingIdGenerator("RESA001");
             var train = new Train(Enumerable.Range(1, 10).Select(CoachGenerator).ToList(), "MyTrainId");
-            _ticketOffice = new TicketOffice(new StubBookingIdGenerator("RESA001"), new StubTrainRepository(new []{train}) );
+            var stubTrainRepository = new StubTrainRepository(new []{train});
+            _ticketOffice = new TicketOffice(bookingIdGenerator, stubTrainRepository );
         }
         
         private static Coach CoachGenerator(int numberCoach)
@@ -36,8 +38,7 @@ namespace KataTrainReservation
             Reservation reservation = _ticketOffice.MakeReservation(new ReservationRequest("MyTrainId", 2));
             Assert.That(reservation.Seats, Has.Count.EqualTo(2));
         }
-
-
+        
         [Test]
         public void ReserveSeats_Should_Attribute_A_BookingId()
         {
@@ -87,7 +88,7 @@ namespace KataTrainReservation
         
         
         [Test]
-        public void ReserveSeat_Can_Not_OverBook_More_Than_70_Percent_Of_A_Coach_Given_To_Rename()
+        public void ReserveSeat_Can_OverBook_More_Than_70_Percent_Of_A_Coach_Given_We_Stay_Bellow_70_Percent_Overall()
         {
             for (int i = 0; i < 10; i++)
             {
