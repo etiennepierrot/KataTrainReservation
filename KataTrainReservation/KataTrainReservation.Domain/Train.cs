@@ -28,7 +28,13 @@ namespace KataTrainReservation.Domain
 
         private Coach SelectAvailableCoach(int nbSeat)
         {
-            return Coaches.FirstOrDefault(c => c.HasSeatAvailable(nbSeat)) ?? Coaches.First(c => !c.TotallyFull(nbSeat));
+
+            var availableCoach = Coaches.FirstOrDefault(c => 
+                                           c.HasSeatAvailable(nbSeat)) ?? Coaches.FirstOrDefault(c => !c.TotallyFull(nbSeat)
+                                       );
+            
+            if(availableCoach == null) throw new ApplicationException("No coach has the enough seat ");
+            return availableCoach;
         }
 
         private decimal PercentNumberOfSeatsBooked(int nbSeat)

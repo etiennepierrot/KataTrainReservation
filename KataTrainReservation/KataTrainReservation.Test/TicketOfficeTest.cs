@@ -33,12 +33,12 @@ namespace KataTrainReservation
         }
 
         [Test]
-        public void ReserveSeats_Should_Book_The_Requested_Number_Of_Seats()
+        public void ReserveSeats_Should_Book_The_Seats()
         {
             Reservation reservation = _ticketOffice.MakeReservation(new ReservationRequest("MyTrainId", 2));
-            Assert.That(reservation.Seats, Has.Count.EqualTo(2));
+            Assert.That(reservation.Seats, Is.EquivalentTo(new List<Seat>(){new Seat("01", 1), new Seat("01", 2)} ));
         }
-        
+
         [Test]
         public void ReserveSeats_Should_Attribute_A_BookingId()
         {
@@ -74,7 +74,17 @@ namespace KataTrainReservation
             
             Assert.That(reservation.Seats[0].Coach, Is.EqualTo(reservation.Seats[1].Coach));
         }
+        
+        
+        [Test]
+        public void ReserveSeat_Should_Book_Until_70_Percent_In_The_Same_Coach()
+        {
+            MakeReservations(6);
 
+            Reservation reservation = _ticketOffice.MakeReservation(new ReservationRequest("MyTrainId", 1));
+            
+            Assert.That(reservation.Seats[0].Coach, Is.EqualTo("01"));
+        }
 
         [Test]
         public void ReserveSeat_Should_Not_Book_More_Than_70_Percent_Of_A_Coach()
@@ -95,9 +105,24 @@ namespace KataTrainReservation
                 _ticketOffice.MakeReservation(new ReservationRequest("MyTrainId", 5));
             }
 
-            Reservation reservation = _ticketOffice.MakeReservation(new ReservationRequest("MyTrainId", 3));
+            Reservation reservation = _ticketOffice.MakeReservation(new ReservationRequest("MyTrainId", 5));
 
             Assert.That(reservation.Seats[0].Coach, Is.EqualTo("01"));
+        }
+        
+        [Test]
+        public void ReserveSeat_Cannot_Book_More_Seat_In_Coach_Than_Existing_Seat()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                _ticketOffice.MakeReservation(new ReservationRequest("MyTrainId", 5));
+            }
+
+            Assert.Throws<ApplicationException>(() =>
+            {
+                _ticketOffice.MakeReservation(new ReservationRequest("MyTrainId", 6));
+            });
+            
         }
         
         

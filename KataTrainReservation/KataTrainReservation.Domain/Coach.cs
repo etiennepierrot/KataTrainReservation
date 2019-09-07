@@ -9,9 +9,10 @@ namespace KataTrainReservation.Domain
 
         private readonly Queue<int> _availablesSeatNumber;
         private readonly string _id;
-        public int NumberOfSeats { get; }
-        public int NumberOfSeatsBooked => NumberOfSeats - _availablesSeatNumber.Count;
         private const decimal PercentOnlineBookingAuthorizeOnCoach = (decimal) 70.0;
+
+        public int NumberOfSeats { get; }
+        public int NumberOfSeatsBooked => NumberOfSeats  - _availablesSeatNumber.Count;
         
 
         public Coach(string id, int[] availablesSeatNumber)
